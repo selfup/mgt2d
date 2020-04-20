@@ -1,0 +1,7 @@
+# common files
+.DS_Store
+.env
+
+# build and dev paths
+bin
+obj
