@@ -2,13 +2,17 @@
 
 Just trying to figure out how this all works.
 
-### Installation
+### Setup
 
-Make sure to have dotnet 3.1 installed.
+#### deps
 
-Mono will be required for the build pipeline.
+Make sure to have dotnet 3.1 installed: https://dotnet.microsoft.com/download
 
-On Mac: `brew install mono` 
+Mono will be required for the build pipeline: https://www.mono-project.com/docs/getting-started/install/
+
+On Mac the simplest solution is to just: `brew install mono` 
+
+#### install libraries
 
 In this repo: `dotnet restore`
 
