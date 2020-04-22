@@ -1,6 +1,6 @@
 # Mono Game Template 2D
 
-Just Trying to figure out how this all works.
+Just trying to figure out how this all works.
 
 ### Installation
 
@@ -14,4 +14,4 @@ In this repo: `dotnet restore`
 
 ### Run
 
-`dotnet run`
+In this repo: `dotnet run`
