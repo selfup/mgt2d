@@ -1,10 +1,10 @@
 # Mono Game Template 2D
 
-Just Trying to figure out how this all works..
+Just Trying to figure out how this all works.
 
 ### Installation
 
-Make sure to have dotnet 3.1 installed
+Make sure to have dotnet 3.1 installed.
 
 Mono will be required for the build pipeline.
 
