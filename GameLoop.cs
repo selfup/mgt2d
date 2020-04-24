@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace mono_game_template_2d
 {
-  public class Game1 : Game
+  public class GameLoop : Game
   {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    public Game1()
+    public GameLoop()
     {
       _graphics = new GraphicsDeviceManager(this);
       Content.RootDirectory = "Content";
@@ -32,8 +32,14 @@ namespace mono_game_template_2d
 
     protected override void Update(GameTime gameTime)
     {
-      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+      var backButtonState = GamePad.GetState(PlayerIndex.One).Buttons.Back;
+      var backButtonPressed = backButtonState == ButtonState.Pressed;
+      var isEscapePressed = Keyboard.GetState().IsKeyDown(Keys.Escape);
+
+      if (backButtonPressed || isEscapePressed)
+      {
         Exit();
+      }
 
       // TODO: Add your update logic here
 
@@ -42,7 +48,7 @@ namespace mono_game_template_2d
 
     protected override void Draw(GameTime gameTime)
     {
-      GraphicsDevice.Clear(Color.CornflowerBlue);
+      GraphicsDevice.Clear(Color.Black);
 
       // TODO: Add your drawing code here
 

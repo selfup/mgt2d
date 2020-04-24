@@ -5,9 +5,9 @@ namespace mono_game_template_2d
   public static class Program
   {
     [STAThread]
-    static void Main()
+    static void GameLoop()
     {
-      using (var game = new Game1())
+      using (var game = new GameLoop())
         game.Run();
     }
   }
