@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace mono_game_template_2d
+namespace mgt2d
 {
   public class GameLoop : Game
   {

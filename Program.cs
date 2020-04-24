@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace mono_game_template_2d
+namespace mgt2d
 {
   public static class Program
   {
     [STAThread]
-    static void GameLoop()
+    static void Main()
     {
       using (var game = new GameLoop())
         game.Run();
