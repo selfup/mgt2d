@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -10,6 +11,8 @@ namespace mgt2d
     private SpriteBatch _spriteBatch;
 
     private Texture2D _player;
+
+    private int _count;
 
     public GameLoop()
     {
@@ -51,13 +54,11 @@ namespace mgt2d
       GraphicsDevice.Clear(Color.Transparent);
 
       _spriteBatch.Begin();
-
-      for (int i = 0; i < 300; i++)
-      {
-        _spriteBatch.Draw(_player, new Rectangle(i, i, i, i), Color.White);
-      }
-
+      var rec = new Rectangle(_count, _count, _count, _count);
+      _spriteBatch.Draw(_player, rec, Color.White);
       _spriteBatch.End();
+
+      _count++;
 
       base.Draw(gameTime);
     }
