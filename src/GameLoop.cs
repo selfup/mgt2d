@@ -9,20 +9,53 @@ namespace mgt2d
   {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
     private Texture2D _player;
-
-    private int _count;
+    private Rectangle character;
 
     public GameLoop()
     {
       _graphics = new GraphicsDeviceManager(this);
+
       Content.RootDirectory = "Content";
       IsMouseVisible = true;
     }
 
     protected override void Initialize()
     {
+      _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
+      _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
+
+      _graphics.IsFullScreen = false;
+
+      _graphics.ApplyChanges();
+
+      Window.AllowUserResizing = true;
+      Window.IsBorderless = true;
+      var deviceWidth = GraphicsDevice.Viewport.Bounds.Width;
+      var deviceHeight = GraphicsDevice.Viewport.Bounds.Height;
+
+      var centerX = deviceWidth / 2;
+      var centerY = deviceHeight / 2;
+
+      int spriteSize;
+
+      Console.WriteLine(deviceWidth);
+
+      if (deviceWidth > 1919)
+      {
+        spriteSize = 64;
+      }
+      else if (deviceWidth > 1279)
+      {
+        spriteSize = 32;
+      }
+      else
+      {
+        spriteSize = 16;
+      }
+
+      character = new Rectangle(centerX, centerY, spriteSize, spriteSize);
+
       base.Initialize();
     }
 
@@ -37,14 +70,48 @@ namespace mgt2d
 
     protected override void Update(GameTime gameTime)
     {
-      var backButtonState = GamePad.GetState(PlayerIndex.One).Buttons.Back;
-      var backButtonPressed = backButtonState == ButtonState.Pressed;
-      var isEscapePressed = Keyboard.GetState().IsKeyDown(Keys.Escape);
+      // only support gamepads
+      var gamePadState = GamePad.GetState(PlayerIndex.One);
+      var gamePadButtons = gamePadState.Buttons;
+      var gamePadSticks = gamePadState.ThumbSticks;
 
-      if (backButtonPressed || isEscapePressed)
+      // "-" button on switch
+      var back = gamePadButtons.Back;
+
+      // switch specific
+      var sA = gamePadButtons.B;
+      var sB = gamePadButtons.A;
+      var sX = gamePadButtons.Y;
+      var sY = gamePadButtons.X;
+
+      if (back == ButtonState.Pressed)
       {
+        Console.WriteLine("Back pressed. Exiting..");
         Exit();
       }
+
+      if (sA == ButtonState.Pressed)
+      {
+        Console.WriteLine("A pressed");
+      }
+
+      if (sB == ButtonState.Pressed)
+      {
+        Console.WriteLine("B pressed");
+      }
+
+      if (sX == ButtonState.Pressed)
+      {
+        Console.WriteLine("X pressed");
+      }
+
+      if (sY == ButtonState.Pressed)
+      {
+        Console.WriteLine("Y pressed");
+      }
+
+      character.X = character.X + (int)(gamePadSticks.Left.X * 10.0);
+      character.Y = character.Y - (int)(gamePadSticks.Left.Y * 10.0);
 
       base.Update(gameTime);
     }
@@ -53,12 +120,14 @@ namespace mgt2d
     {
       GraphicsDevice.Clear(Color.Transparent);
 
-      _spriteBatch.Begin();
-      var rec = new Rectangle(_count, _count, _count, _count);
-      _spriteBatch.Draw(_player, rec, Color.White);
-      _spriteBatch.End();
+      GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
-      _count++;
+      var actualWidth = GraphicsDevice.Viewport.Width;
+      var actualHeight = GraphicsDevice.Viewport.Height;
+
+      _spriteBatch.Begin();
+      _spriteBatch.Draw(_player, character, Color.White);
+      _spriteBatch.End();
 
       base.Draw(gameTime);
     }
