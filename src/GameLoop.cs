@@ -22,8 +22,11 @@ namespace mgt2d
 
     protected override void Initialize()
     {
-      _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
-      _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
+      var displayWidth = _graphics.GraphicsDevice.DisplayMode.Width;
+      var displayHeight = _graphics.GraphicsDevice.DisplayMode.Height;
+
+      _graphics.PreferredBackBufferWidth = displayWidth;
+      _graphics.PreferredBackBufferHeight = displayHeight;
 
       _graphics.IsFullScreen = false;
 
@@ -31,6 +34,7 @@ namespace mgt2d
 
       Window.AllowUserResizing = true;
       Window.IsBorderless = true;
+
       var deviceWidth = GraphicsDevice.Viewport.Bounds.Width;
       var deviceHeight = GraphicsDevice.Viewport.Bounds.Height;
 
