@@ -9,6 +9,8 @@ namespace mgt2d
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
+    private Texture2D _player;
+
     public GameLoop()
     {
       _graphics = new GraphicsDeviceManager(this);
@@ -18,8 +20,6 @@ namespace mgt2d
 
     protected override void Initialize()
     {
-      // TODO: Add your initialization logic here
-
       base.Initialize();
     }
 
@@ -27,7 +27,9 @@ namespace mgt2d
     {
       _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-      // TODO: use this.Content to load your game content here
+      LoadSprites sprites = new LoadSprites(GraphicsDevice);
+
+      _player = sprites.player;
     }
 
     protected override void Update(GameTime gameTime)
@@ -41,16 +43,21 @@ namespace mgt2d
         Exit();
       }
 
-      // TODO: Add your update logic here
-
       base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-      GraphicsDevice.Clear(Color.Black);
+      GraphicsDevice.Clear(Color.Transparent);
 
-      // TODO: Add your drawing code here
+      _spriteBatch.Begin();
+
+      for (int i = 0; i < 300; i++)
+      {
+        _spriteBatch.Draw(_player, new Rectangle(i, i, i, i), Color.White);
+      }
+
+      _spriteBatch.End();
 
       base.Draw(gameTime);
     }
