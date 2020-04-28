@@ -43,8 +43,6 @@ namespace mgt2d
 
       int spriteSize;
 
-      Console.WriteLine(deviceWidth);
-
       if (deviceWidth > 1919)
       {
         spriteSize = 64;
@@ -125,9 +123,6 @@ namespace mgt2d
       GraphicsDevice.Clear(Color.Transparent);
 
       GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
-
-      var actualWidth = GraphicsDevice.Viewport.Width;
-      var actualHeight = GraphicsDevice.Viewport.Height;
 
       _spriteBatch.Begin();
       _spriteBatch.Draw(_player, character, Color.White);
