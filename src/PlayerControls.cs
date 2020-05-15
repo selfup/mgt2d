@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,14 +14,13 @@ namespace mgt2d {
       var newX = (character.X * 1);
       var newY = (character.Y * 1);
 
-      // only support gamepads
+      var keyboardState = Keyboard.GetState();
       var gamePadState = GamePad.GetState(PlayerIndex.One);
       var gamePadButtons = gamePadState.Buttons;
       var gamePadSticks = gamePadState.ThumbSticks;
 
       // "-" button on switch
       var sBack = gamePadButtons.Back;
-      var kBack = false;
 
       // switch specific
       var sA = gamePadButtons.B;
@@ -29,17 +29,26 @@ namespace mgt2d {
       var sY = gamePadButtons.X;
 
       // keyboard specific
-      var kW = false;
-      var kS = false;
-      var kD = false;
-      var kA = false;
+      var kBack = Keys.Escape;
+      var kW = Keys.W;
+      var kS = Keys.S;
+      var kD = Keys.D;
+      var kA = Keys.A;
 
-      if (kW) { }
-      if (kS) { }
-      if (kD) { }
-      if (kA) { }
+      if (keyboardState.IsKeyDown(kW)) {
+        newY += 1;
+      }
+      if (keyboardState.IsKeyDown(kS)) {
+        newY -= 1;
+      }
+      if (keyboardState.IsKeyDown(kD)) {
+        newX += 1;
+      }
+      if (keyboardState.IsKeyDown(kA)) {
+        newX -= 1;
+      }
 
-      if (sBack == ButtonState.Pressed || kBack) {
+      if (sBack == ButtonState.Pressed || keyboardState.IsKeyDown(kBack)) {
         game.Exit();
       }
 
@@ -63,8 +72,8 @@ namespace mgt2d {
         newY = (int)gamePadSticks.Left.Y;
       }
 
-      character.X = newX + (newX * 10);
-      character.Y = newY - (newY * 10);
+      character.X = character.X + (newX * 10);
+      character.Y = character.Y - (newY * 10);
     }
   }
 }
