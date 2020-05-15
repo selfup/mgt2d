@@ -1,35 +1,30 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace mgt2d
-{
-  public class GameLoop : Game
-  {
+namespace mgt2d {
+  public class GameLoop : Game {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Texture2D _player;
     private Rectangle character;
+    private PlayerControls playerControls;
 
-    public GameLoop()
-    {
+    public GameLoop() {
       _graphics = new GraphicsDeviceManager(this);
 
+      playerControls = new PlayerControls(this);
       Content.RootDirectory = "Content";
       IsMouseVisible = true;
     }
 
-    protected override void Initialize()
-    {
+    protected override void Initialize() {
       var displayWidth = _graphics.GraphicsDevice.DisplayMode.Width;
       var displayHeight = _graphics.GraphicsDevice.DisplayMode.Height;
 
       _graphics.PreferredBackBufferWidth = displayWidth;
       _graphics.PreferredBackBufferHeight = displayHeight;
-
       _graphics.IsFullScreen = false;
-
       _graphics.ApplyChanges();
 
       Window.AllowUserResizing = true;
@@ -43,16 +38,11 @@ namespace mgt2d
 
       int spriteSize;
 
-      if (deviceWidth > 1919)
-      {
+      if (deviceWidth > 1919) {
         spriteSize = 64;
-      }
-      else if (deviceWidth > 1279)
-      {
+      } else if (deviceWidth > 1279) {
         spriteSize = 32;
-      }
-      else
-      {
+      } else {
         spriteSize = 16;
       }
 
@@ -61,67 +51,20 @@ namespace mgt2d
       base.Initialize();
     }
 
-    protected override void LoadContent()
-    {
+    protected override void LoadContent() {
       _spriteBatch = new SpriteBatch(GraphicsDevice);
-
       LoadSprites sprites = new LoadSprites(GraphicsDevice);
-
       _player = sprites.player;
     }
 
-    protected override void Update(GameTime gameTime)
-    {
-      // only support gamepads
-      var gamePadState = GamePad.GetState(PlayerIndex.One);
-      var gamePadButtons = gamePadState.Buttons;
-      var gamePadSticks = gamePadState.ThumbSticks;
-
-      // "-" button on switch
-      var back = gamePadButtons.Back;
-
-      // switch specific
-      var sA = gamePadButtons.B;
-      var sB = gamePadButtons.A;
-      var sX = gamePadButtons.Y;
-      var sY = gamePadButtons.X;
-
-      if (back == ButtonState.Pressed)
-      {
-        Console.WriteLine("Back pressed. Exiting..");
-        Exit();
-      }
-
-      if (sA == ButtonState.Pressed)
-      {
-        Console.WriteLine("A pressed");
-      }
-
-      if (sB == ButtonState.Pressed)
-      {
-        Console.WriteLine("B pressed");
-      }
-
-      if (sX == ButtonState.Pressed)
-      {
-        Console.WriteLine("X pressed");
-      }
-
-      if (sY == ButtonState.Pressed)
-      {
-        Console.WriteLine("Y pressed");
-      }
-
-      character.X = character.X + (int)(gamePadSticks.Left.X * 10.0);
-      character.Y = character.Y - (int)(gamePadSticks.Left.Y * 10.0);
+    protected override void Update(GameTime gameTime) {
+      playerControls.handleGameInput(character);
 
       base.Update(gameTime);
     }
 
-    protected override void Draw(GameTime gameTime)
-    {
+    protected override void Draw(GameTime gameTime) {
       GraphicsDevice.Clear(Color.Transparent);
-
       GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
       _spriteBatch.Begin();
