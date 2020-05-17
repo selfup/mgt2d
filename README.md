@@ -10,7 +10,7 @@ Make sure to have dotnet 3.1 installed: https://dotnet.microsoft.com/download
 
 Mono will be required for the build pipeline: https://www.mono-project.com/docs/getting-started/install/
 
-If on macOS and using bash update your PATH in your `$HOME/.bash_profile`:
+If on macOS and using bash, update your PATH in your `$HOME/.bash_profile`:
 
 ```bash
 # Mono path - MonoGame dependency
