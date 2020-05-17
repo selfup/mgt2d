@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Mg.Temp {
-    public struct Player {
-        public string name;
+    public struct PlayerEntity {
         public Texture2D texture;
+        public string name;
         public int health;
         public bool isColliding;
         public bool isTakingDamage;
