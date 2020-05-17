@@ -19,6 +19,8 @@ export PATH=/Library/Frameworks/Mono.framework/Versions/Current/bin/:${PATH}
 
 Now reload your bash_profile: `source $HOME/.bash_profile`
 
+_On Catalina you will more than likey need to do this in your `$HOME/.zprofile`_
+
 #### install libraries
 
 In this repo: `dotnet restore`

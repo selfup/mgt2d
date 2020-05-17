@@ -1,14 +1,13 @@
 namespace Mg.Temp {
-    public class ConfigModel {
+    public struct ConfigModel {
         public PlayerConfigModel Player { get; set; }
     }
 
-    public class PlayerConfigModel {
+    public struct PlayerConfigModel {
         public int SpriteSize { get; set; }
 
         public int Width { get; set; }
 
         public int Height { get; set; }
     }
-
 }
