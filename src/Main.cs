@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace mgt2d {
+namespace Mg.Temp {
     public class GameLoop : Game {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -52,8 +52,8 @@ namespace mgt2d {
 
         protected override void LoadContent() {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            LoadSprites sprites = new LoadSprites(GraphicsDevice);
-            _player = sprites.player;
+            LoadSprites _sprites = new LoadSprites(GraphicsDevice);
+            _player = _sprites.sprites["player"];
         }
 
         protected override void Update(GameTime gameTime) {

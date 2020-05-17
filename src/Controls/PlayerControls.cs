@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace mgt2d {
+namespace Mg.Temp {
     class PlayerControls {
         private Game game;
 
