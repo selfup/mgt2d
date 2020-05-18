@@ -82,8 +82,6 @@ namespace Mg.Temp {
 
             _spriteBatch.Begin();
 
-            Console.WriteLine(gameTime.TotalGameTime.Seconds);
-
             if (devMode && gameTime.TotalGameTime.Seconds % 2 == 0) {
                 DateTime dt = File.GetLastWriteTime(PLAYER_CONFIG);
 
