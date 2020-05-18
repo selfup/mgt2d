@@ -2,9 +2,9 @@
 
 Just trying to figure out how this all works.
 
-### Setup
+## Setup
 
-#### deps
+### deps
 
 Make sure to have dotnet 3.1 installed: https://dotnet.microsoft.com/download
 
@@ -21,14 +21,14 @@ Now reload your bash_profile: `source $HOME/.bash_profile`
 
 _On Catalina you will more than likey need to do this in your `$HOME/.zprofile`_
 
-#### install libraries
+### install libraries
 
 In this repo: `dotnet restore`
 
-### Run
+### run
 
 In this repo: `dotnet run`
 
-### Watch 
+### watch 
 
 In this repo: `dotnet watch run`
