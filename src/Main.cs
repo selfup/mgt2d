@@ -19,6 +19,8 @@ namespace Mg.Temp {
         private PlayerControls playerControls;
         private int spriteSize;
 
+        private RenderTarget2D renderTarget;
+
         public GameLoop() {
             _graphics = new GraphicsDeviceManager(this);
 
@@ -43,11 +45,11 @@ namespace Mg.Temp {
                 currentTimeStamp = unixTimestamp;
             }
 
-            var displayWidth = 1280;
-            var displayHeight = 720;
+            renderTarget = new RenderTarget2D(_graphics.GraphicsDevice, 512, 288);
 
-            _graphics.PreferredBackBufferWidth = displayWidth;
-            _graphics.PreferredBackBufferHeight = displayHeight;
+            _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.Viewport.Bounds.Width;
+            _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.Viewport.Bounds.Height;
+            _graphics.GraphicsDevice.SetRenderTarget(renderTarget);
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
@@ -79,6 +81,7 @@ namespace Mg.Temp {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Transparent);
             GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+            _graphics.GraphicsDevice.SetRenderTarget(renderTarget);
 
             _spriteBatch.Begin();
 
@@ -107,6 +110,8 @@ namespace Mg.Temp {
             }
 
             _spriteBatch.End();
+
+            _graphics.GraphicsDevice.SetRenderTarget(null);
 
             base.Draw(gameTime);
         }
