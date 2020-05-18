@@ -1,7 +1,8 @@
 {
   "Player": {
+    "Sprite": "Config/sprites/player.png",
     "SpriteSize": 32,
-    "Height": 32,
-    "Width": 32
+    "Height": 16,
+    "Width": 16
   }
 }

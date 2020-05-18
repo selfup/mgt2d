@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Mg.Temp {
     public class GameLoop : Game {
         const string PLAYER_CONFIG = "Content/config.json";
+        private ConfigModel config;
         private bool devMode;
         private int currentTimeStamp;
 
@@ -28,6 +28,8 @@ namespace Mg.Temp {
         }
 
         protected override void Initialize() {
+            config = LoadConfig();
+
             if (Environment.GetEnvironmentVariable("MONOGAME_DEV") == "true") {
                 devMode = true;
 
@@ -41,8 +43,8 @@ namespace Mg.Temp {
                 currentTimeStamp = unixTimestamp;
             }
 
-            var displayWidth = _graphics.GraphicsDevice.DisplayMode.Width;
-            var displayHeight = _graphics.GraphicsDevice.DisplayMode.Height;
+            var displayWidth = 1280;
+            var displayHeight = 720;
 
             _graphics.PreferredBackBufferWidth = displayWidth;
             _graphics.PreferredBackBufferHeight = displayHeight;
@@ -52,19 +54,10 @@ namespace Mg.Temp {
             Window.AllowUserResizing = true;
             Window.IsBorderless = true;
 
-            var deviceWidth = GraphicsDevice.Viewport.Bounds.Width;
-            var deviceHeight = GraphicsDevice.Viewport.Bounds.Height;
+            var centerX = 0;
+            var centerY = 0;
 
-            var centerX = deviceWidth / 2;
-            var centerY = deviceHeight / 2;
-
-            if (deviceWidth > 1919) {
-                spriteSize = 64;
-            } else if (deviceWidth > 1279) {
-                spriteSize = 32;
-            } else {
-                spriteSize = 16;
-            }
+            spriteSize = 16;
 
             playerRec = new Rectangle(centerX, centerY, spriteSize, spriteSize);
 
@@ -87,29 +80,46 @@ namespace Mg.Temp {
             GraphicsDevice.Clear(Color.Transparent);
             GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
-            if (devMode) {
+            _spriteBatch.Begin();
+
+            Console.WriteLine(gameTime.TotalGameTime.Seconds);
+
+            if (devMode && gameTime.TotalGameTime.Seconds % 2 == 0) {
                 DateTime dt = File.GetLastWriteTime(PLAYER_CONFIG);
 
                 var timestamp =
                     (Int32)(dt.Subtract(DateTime.UnixEpoch)).TotalSeconds;
 
                 if (timestamp != currentTimeStamp) {
-                    ConfigModel config;
-                    var fileContents = File.ReadAllText(PLAYER_CONFIG);
-                    config = JsonSerializer.Deserialize<ConfigModel>(fileContents);
+                    config = LoadConfig();
 
                     currentTimeStamp = timestamp;
-
-                    playerRec.Height = config.Player.Height;
-                    playerRec.Width = config.Player.Width;
                 }
             }
 
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(_player, playerRec, Color.White);
+            playerRec.Height = config.Player.Height;
+            playerRec.Width = config.Player.Width;
+
+            for (int x = 0; x < _graphics.GraphicsDevice.Viewport.Bounds.Width; x += 16) {
+                for (int y = 0; y < _graphics.GraphicsDevice.Viewport.Bounds.Height; y += 16) {
+                    var gridElementRec = new Rectangle(playerRec.X + x, playerRec.Y + y, playerRec.Width, playerRec.Height);
+
+                    _spriteBatch.Draw(_player, gridElementRec, Color.White);
+                }
+            }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private ConfigModel LoadConfig() {
+            ConfigModel config;
+
+            var fileContents = File.ReadAllText(PLAYER_CONFIG);
+            config = JsonSerializer.Deserialize<ConfigModel>(fileContents);
+
+            return config;
         }
     }
 }

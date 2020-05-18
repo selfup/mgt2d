@@ -4,10 +4,9 @@ namespace Mg.Temp {
     }
 
     public struct PlayerConfigModel {
+        public string Sprite { get; set; }
         public int SpriteSize { get; set; }
-
         public int Width { get; set; }
-
         public int Height { get; set; }
     }
 }
