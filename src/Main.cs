@@ -79,12 +79,22 @@ namespace Mg.Temp {
         }
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.Transparent);
             GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+
             _graphics.GraphicsDevice.SetRenderTarget(renderTarget);
-
             _spriteBatch.Begin();
+            spriteBatchDraw(gameTime);
+            _spriteBatch.End();
 
+            _graphics.GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, 1080, 1920), Color.White);
+            _spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void spriteBatchDraw(GameTime gameTime) {
             if (devMode && gameTime.TotalGameTime.Seconds % 2 == 0) {
                 DateTime dt = File.GetLastWriteTime(PLAYER_CONFIG);
 
@@ -101,6 +111,8 @@ namespace Mg.Temp {
             playerRec.Height = config.Player.Height;
             playerRec.Width = config.Player.Width;
 
+            Console.WriteLine(_graphics.GraphicsDevice.Viewport.Bounds.Width);
+
             for (int x = 0; x < _graphics.GraphicsDevice.Viewport.Bounds.Width; x += 16) {
                 for (int y = 0; y < _graphics.GraphicsDevice.Viewport.Bounds.Height; y += 16) {
                     var gridElementRec = new Rectangle(playerRec.X + x, playerRec.Y + y, playerRec.Width, playerRec.Height);
@@ -108,12 +120,6 @@ namespace Mg.Temp {
                     _spriteBatch.Draw(_player, gridElementRec, Color.White);
                 }
             }
-
-            _spriteBatch.End();
-
-            _graphics.GraphicsDevice.SetRenderTarget(null);
-
-            base.Draw(gameTime);
         }
 
         private ConfigModel LoadConfig() {
