@@ -47,8 +47,12 @@ namespace Mg.Temp {
 
             renderTarget = new RenderTarget2D(_graphics.GraphicsDevice, 512, 288);
 
-            _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.Viewport.Bounds.Width;
-            _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.Viewport.Bounds.Height;
+            var displayWidth = 1280;
+            var displayHeight = 720;
+
+            _graphics.PreferredBackBufferWidth = displayWidth;
+            _graphics.PreferredBackBufferHeight = displayHeight;
+
             _graphics.GraphicsDevice.SetRenderTarget(renderTarget);
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
@@ -79,7 +83,7 @@ namespace Mg.Temp {
         }
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+            GraphicsDevice.Clear(Color.Black);
 
             _graphics.GraphicsDevice.SetRenderTarget(renderTarget);
             _spriteBatch.Begin();
@@ -87,8 +91,8 @@ namespace Mg.Temp {
             _spriteBatch.End();
 
             _graphics.GraphicsDevice.SetRenderTarget(null);
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, 1080, 1920), Color.White);
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, 1280, 720), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
