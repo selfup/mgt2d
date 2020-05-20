@@ -8,20 +8,19 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Mg.Temp {
     public class GameLoop : Game {
         const string PLAYER_CONFIG = "Content/config.json";
-        private ConfigModel config;
-        private bool devMode;
-        private int currentTimeStamp;
 
+        private ConfigModel config;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _player;
         private Rectangle playerRec;
         private PlayerControls playerControls;
-        private int spriteSize;
-
         private LoadSprites _sprites;
-
         private RenderTarget2D renderTarget;
+
+        private int spriteSize;
+        private bool devMode;
+        private int currentTimeStamp;
 
         public GameLoop() {
             _graphics = new GraphicsDeviceManager(this);
