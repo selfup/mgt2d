@@ -19,6 +19,8 @@ namespace Mg.Temp {
         private PlayerControls playerControls;
         private int spriteSize;
 
+        private LoadSprites _sprites;
+
         private RenderTarget2D renderTarget;
 
         public GameLoop() {
@@ -45,7 +47,7 @@ namespace Mg.Temp {
                 currentTimeStamp = unixTimestamp;
             }
 
-            renderTarget = new RenderTarget2D(_graphics.GraphicsDevice, 512, 288);
+            renderTarget = new RenderTarget2D(_graphics.GraphicsDevice, 854, 480);
 
             var displayWidth = 1280;
             var displayHeight = 720;
@@ -72,8 +74,8 @@ namespace Mg.Temp {
 
         protected override void LoadContent() {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            LoadSprites _sprites = new LoadSprites(GraphicsDevice);
-            _player = _sprites.sprites["player"];
+            _sprites = new LoadSprites(GraphicsDevice);
+            _player = _sprites.sprites[config.Player.PngName];
         }
 
         protected override void Update(GameTime gameTime) {
@@ -83,7 +85,7 @@ namespace Mg.Temp {
         }
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.White);
 
             _graphics.GraphicsDevice.SetRenderTarget(renderTarget);
             _spriteBatch.Begin();
@@ -92,7 +94,7 @@ namespace Mg.Temp {
 
             _graphics.GraphicsDevice.SetRenderTarget(null);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, 1280, 720), Color.White);
+            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, 1920, 1080), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -108,14 +110,14 @@ namespace Mg.Temp {
                 if (timestamp != currentTimeStamp) {
                     config = LoadConfig();
 
+                    _player = this._sprites.sprites[config.Player.PngName];
+
                     currentTimeStamp = timestamp;
                 }
             }
 
             playerRec.Height = config.Player.Height;
             playerRec.Width = config.Player.Width;
-
-            Console.WriteLine(_graphics.GraphicsDevice.Viewport.Bounds.Width);
 
             for (int x = 0; x < _graphics.GraphicsDevice.Viewport.Bounds.Width; x += 16) {
                 for (int y = 0; y < _graphics.GraphicsDevice.Viewport.Bounds.Height; y += 16) {
